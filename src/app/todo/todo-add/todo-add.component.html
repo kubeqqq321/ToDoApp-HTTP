@@ -1,0 +1,16 @@
+<form (ngSubmit)="onSubmit()" class="example-form">
+  <app-wrapper-element>
+    <mat-card-header>
+      <mat-card-title>Add To Do</mat-card-title>
+    </mat-card-header>
+
+    <mat-form-field class="form-field-todo-add">
+      <mat-label>Add task</mat-label>
+      <input [(ngModel)]="titleTask" matInput name="titleTask" placeholder="Ex. Do something">
+    </mat-form-field>
+
+    <mat-card-actions align="end">
+      <button mat-flat-button type="submit">Create task</button>
+    </mat-card-actions>
+  </app-wrapper-element>
+</form>

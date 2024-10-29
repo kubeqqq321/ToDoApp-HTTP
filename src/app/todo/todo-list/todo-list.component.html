@@ -1,0 +1,21 @@
+<app-wrapper-element>
+
+  <mat-card-header>
+    <mat-card-title [matBadge]="tasks.length" class="demo-section" matBadgeOverlap="false">To Do List
+    </mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content *ngIf="tasks.length === 0; else moreThanZeroTemplate">
+    <mat-list-item class="display-flex-item">
+      <mat-label>No tasks to do</mat-label>
+      <mat-icon>thumb_up</mat-icon>
+    </mat-list-item>
+  </mat-card-content>
+
+  <ng-template #moreThanZeroTemplate>
+    <mat-list-item *ngFor="let task of tasks">
+      <app-todo-list-item [task]="task"/>
+    </mat-list-item>
+  </ng-template>
+
+</app-wrapper-element>

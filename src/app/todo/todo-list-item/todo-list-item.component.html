@@ -1,0 +1,8 @@
+<mat-checkbox (click)="onChangeState(task)"
+              [checked]="task.isCompleted"
+              matTooltip="Want to complete"
+              matTooltipPosition="right">
+  {{ task.title }} + {{ task.isCompleted }} + {{ task.id }}
+</mat-checkbox>
+
+

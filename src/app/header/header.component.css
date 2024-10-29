@@ -1,0 +1,13 @@
+.header-card {
+  padding: 10px;
+  background: linear-gradient(180deg, #b0efb0, #bddbe7);
+  border-radius: 5px;
+  margin: 10px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  text-align: center;
+  justify-content: center;
+}
+
+.header-center {
+  display: block;
+}

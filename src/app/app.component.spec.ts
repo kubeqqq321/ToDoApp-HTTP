@@ -14,16 +14,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'HTTP-TodoApp' title`, () => {
+  it(`should have the 'TodoApp' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('HTTP-TodoApp');
+    expect(app.title).toEqual('TodoApp');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, HTTP-TodoApp');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, TodoApp');
   });
 });

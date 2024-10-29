@@ -1,0 +1,15 @@
+
+.display-flex-item {
+  display: flex;
+  justify-content: center;
+  padding: 0 1rem;
+}
+
+mat-card-content {
+  align-content: center;
+  justify-content: center;
+}
+
+mat-label {
+  padding-right: 10px;
+}
