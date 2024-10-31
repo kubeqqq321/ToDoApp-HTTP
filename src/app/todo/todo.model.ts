@@ -1,5 +1,5 @@
 export interface ToDoModel {
-  id: number;
+  id: string;
   title: string;
   isCompleted: boolean;
 }

@@ -1,11 +1,11 @@
 <app-wrapper-element>
 
   <mat-card-header>
-    <mat-card-title [matBadge]="tasks.length" class="demo-section" matBadgeOverlap="false">To Do List
+    <mat-card-title [matBadge]="taskArray.length" class="demo-section" matBadgeOverlap="false">To Do List
     </mat-card-title>
   </mat-card-header>
 
-  <mat-card-content *ngIf="tasks.length === 0; else moreThanZeroTemplate">
+  <mat-card-content *ngIf="taskArray.length === 0; else moreThanZeroTemplate">
     <mat-list-item class="display-flex-item">
       <mat-label>No tasks to do</mat-label>
       <mat-icon>thumb_up</mat-icon>
@@ -13,8 +13,15 @@
   </mat-card-content>
 
   <ng-template #moreThanZeroTemplate>
-    <mat-list-item *ngFor="let task of tasks">
-      <app-todo-list-item [task]="task"/>
+    <mat-list-item *ngFor="let task of taskArray">
+      <mat-checkbox (click)="onChangeState(task)"
+                    [checked]="task.isCompleted"
+                    matTooltip="Want to complete"
+                    matTooltipPosition="right">
+        {{ task.title }} + {{ task.isCompleted }} + {{ task.id }}
+      </mat-checkbox>
+
+      <!--      <app-todo-list-item [task]="task"/>-->
     </mat-list-item>
   </ng-template>
 

@@ -51,13 +51,6 @@ import {MatBadge} from '@angular/material/badge';
 export class TodoCompleteComponent {
 
   private todoService = inject(TodoService);
-
-  get tasks() {
-    return this.todoService.allCompletedTasksTable;
-  }
-
-  onUncheck(task: ToDoModel) {
-    this.todoService.markTaskAsUncompleted(task.id);
-  }
+  tasks: string[] = [];
 
 }

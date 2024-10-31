@@ -1,4 +1,4 @@
-<form (ngSubmit)="onSubmit()" class="example-form">
+<form #postForm="ngForm" (ngSubmit)="onCreateTask(postForm.value)" class="example-form">
   <app-wrapper-element>
     <mat-card-header>
       <mat-card-title>Add To Do</mat-card-title>
@@ -6,11 +6,11 @@
 
     <mat-form-field class="form-field-todo-add">
       <mat-label>Add task</mat-label>
-      <input [(ngModel)]="titleTask" matInput name="titleTask" placeholder="Ex. Do something">
+      <input ngModel required matInput name="title" placeholder="Ex. Do something">
     </mat-form-field>
 
     <mat-card-actions align="end">
-      <button mat-flat-button type="submit">Create task</button>
+      <button mat-flat-button [disabled]="!postForm.valid" type="submit">Create task</button>
     </mat-card-actions>
   </app-wrapper-element>
 </form>

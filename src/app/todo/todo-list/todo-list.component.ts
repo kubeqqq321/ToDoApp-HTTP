@@ -1,4 +1,4 @@
-import {Component, inject, Input} from '@angular/core';
+import {Component, DestroyRef, inject, Input, OnInit, Output} from '@angular/core';
 import {MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardTitle} from '@angular/material/card';
 import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatButton} from '@angular/material/button';
@@ -13,6 +13,8 @@ import {MatBadge} from '@angular/material/badge';
 import {MatTooltip} from '@angular/material/tooltip';
 import {TodoService} from '../todo.service';
 import {TodoListItemComponent} from '../todo-list-item/todo-list-item.component';
+import {HttpClientModule} from '@angular/common/http';
+import {ToDoModel} from '../todo.model';
 
 @Component({
   selector: 'app-todo-list',
@@ -38,18 +40,42 @@ import {TodoListItemComponent} from '../todo-list-item/todo-list-item.component'
     MatBadge,
     MatTooltip,
     TodoListItemComponent,
-
   ],
   templateUrl: './todo-list.component.html',
   styleUrl: './todo-list.component.css',
 })
-export class TodoListComponent {
+export class TodoListComponent implements OnInit {
 
   private todoService = inject(TodoService);
+  private destroyRef = inject(DestroyRef);
 
+  isFetching = false;
 
-  get tasks() {
-    return this.todoService.allTasksTable.sort();
+  @Input({required: true}) tasks: ToDoModel[] = [];
+  @Output() taskArray: ToDoModel[] = [];
+
+  // taskArray: ToDoModel[] = [];
+
+  ngOnInit() {
+    this.isFetching = true;
+    this.todoService.fetchTasks()
+      .subscribe(tasks => {
+        this.taskArray = tasks;
+        this.isFetching = false;
+        console.log('Pobrane zadania:', this.taskArray);
+      });
+
   }
 
+
+  onChangeState(task: ToDoModel) {
+    this.todoService.changeTaskState(task).subscribe({
+      next: (res) => {
+        console.log('Zmieniono status zadania:', res);
+      },
+      error: (error) => {
+        console.log('Błąd zmiany statusu zadania:', error);
+      }
+    })
+  }
 }

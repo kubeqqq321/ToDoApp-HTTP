@@ -35,22 +35,8 @@ export class TodoListItemComponent {
   @Input({required: true}) task!: ToDoModel;
   private todoService = inject(TodoService);
 
-  onChecked(task: ToDoModel) {
-    this.todoService.taskComplete(task.id);
-  }
-
-  onUncheck(task: ToDoModel) {
-    this.todoService.markTaskAsUncompleted(task.id);
-  }
 
   onChangeState(task: ToDoModel) {
-    switch (task.isCompleted) {
-      case false:
-        this.onChecked(task);
-        break;
-      default:
-        this.onUncheck(task);
-    }
-  }
 
+  }
 }

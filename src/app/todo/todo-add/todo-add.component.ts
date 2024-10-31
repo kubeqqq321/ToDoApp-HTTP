@@ -9,6 +9,7 @@ import {WrapperElementComponent} from '../../wrapper-element/wrapper-element.com
 import {ToDoModel} from '../todo.model';
 import {TodoService} from '../todo.service';
 import {NgIf} from '@angular/common';
+import {map} from 'rxjs';
 
 
 @Component({
@@ -39,12 +40,11 @@ export class TodoAddComponent {
 
   private todoService = inject(TodoService);
 
-  onSubmit() {
-    this.todoService.addTask({
-      id: new Date().getDate(),
-      title: this.titleTask,
-      isCompleted: false
-    });
-    console.log(this.titleTask);
+
+  onCreateTask(todo: ToDoModel) {
+    todo.id = new Date().getTime().toString();
+    todo.isCompleted = false;
+    this.todoService.createAndStoreTask(todo);
+    // this.todoService.
   }
 }
