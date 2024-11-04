@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, DestroyRef, inject, OnInit} from '@angular/core';
 import {MatButton} from "@angular/material/button";
 import {
   MatCard,
@@ -48,9 +48,24 @@ import {MatBadge} from '@angular/material/badge';
   templateUrl: './todo-complete.component.html',
   styleUrl: './todo-complete.component.css'
 })
-export class TodoCompleteComponent {
+export class TodoCompleteComponent implements OnInit {
+  isFetching = false;
+  taskArray: ToDoModel[] = [];
 
+  // @Input({required: true}) tasks: ToDoModel[] = [];
+  // @Output() taskArray: ToDoModel[] = [];
   private todoService = inject(TodoService);
-  tasks: string[] = [];
+  private destroyRef = inject(DestroyRef);
+
+  ngOnInit() {
+    this.isFetching = true;
+    this.todoService.getAllTasks()
+      .subscribe(tasks => {
+        this.taskArray = tasks.filter(task => task.isCompleted);
+        this.isFetching = false;
+        console.log('Pobrane zadania:', this.taskArray);
+      });
+  }
+
 
 }

@@ -2,7 +2,7 @@ import {ToDoModel} from './todo.model';
 import {inject, Injectable, signal} from '@angular/core';
 
 
-import {catchError, map, tap, throwError} from "rxjs";
+import {BehaviorSubject, catchError, map, Subject, tap, throwError} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 
 @Injectable({
@@ -11,55 +11,43 @@ import {HttpClient} from "@angular/common/http";
 export class TodoService {
 
   localUrl = 'http://localhost:3000/';
-
-  loadedTasks: ToDoModel[] = [];
+  mySubject = new Subject<ToDoModel>();
 
   private httpClient = inject(HttpClient);
 
   createAndStoreTask(toDoModel: ToDoModel) {
     console.log(toDoModel);
-    return this.httpClient.post<{
-      todo: ToDoModel
-    }>(this.localUrl + "tasksAdd", toDoModel).subscribe(responseData => {
-      console.log(responseData);
-    });
+    return this.httpClient.post<{ todo: ToDoModel }>(this.localUrl + "tasksAdd", toDoModel)
+      .subscribe(responseData => {
+        console.log(responseData);
+      });
   }
 
-  addTaskToArray(toDoModel: ToDoModel) {
-    const prevTasks = this.loadedTasks;
-
-    // if (!prevTasks.some((task) => task.id === toDoModel.id)) {
-    this.loadedTasks = [...prevTasks, toDoModel];
-    // }
-
-    console.log('Selected task: ' + toDoModel.title);
-    return this.httpClient.post(this.localUrl + "tasksAdd", {
-      taskId: toDoModel.id,
-    })
-      .pipe(
-        catchError(err => {
-          this.loadedTasks = prevTasks;
-          return throwError(() => new Error('Failed to stored selected task.'));
-        }),
-      )
+  getAllTasks() {
+    return this.httpClient.get<ToDoModel[]>(this.localUrl + "tasksAdd");
   }
-
-
-  fetchTasks() {
-    return this.httpClient
-      .get<ToDoModel[]>(this.localUrl + "tasksAdd")
-  }
-
-
-  // changeTaskState(task: ToDoModel) {
-  //   return this.httpClient.post(`this.localUrl + "tasksAdd/${task.id}`, {
-  //     isCompleted: task.isCompleted,
-  //   });
-  // }
 
   changeTaskState(task: ToDoModel) {
-    return this.httpClient.delete(this.localUrl + `tasksAdd/${task.id}`).subscribe(responseData => {
-      console.log(responseData);
+    task.isCompleted = !task.isCompleted;
+
+    return this.httpClient.put(this.localUrl + `tasksAdd/${task.id}`, task).subscribe({
+      //zawartość subscribe jest opcjonalna można ją usunąć
+      next: (res) => {
+        console.log('Zmieniono status zadania:', res);
+      },
+      error: (error) => {
+        console.log('Błąd zmiany statusu zadania:', error);
+      }
     });
   }
+
+
+  deleteTask(task: ToDoModel) {
+    return this.httpClient.delete(this.localUrl + `tasksAdd/${task.id}`).subscribe()
+  }
+
+  getTaskById(task: ToDoModel) {
+    return this.httpClient.get<ToDoModel>(this.localUrl + `tasksAdd/${task.id}`).subscribe()
+  }
+
 }

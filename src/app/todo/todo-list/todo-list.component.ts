@@ -15,6 +15,7 @@ import {TodoService} from '../todo.service';
 import {TodoListItemComponent} from '../todo-list-item/todo-list-item.component';
 import {HttpClientModule} from '@angular/common/http';
 import {ToDoModel} from '../todo.model';
+import {BehaviorSubject} from 'rxjs';
 
 @Component({
   selector: 'app-todo-list',
@@ -46,25 +47,23 @@ import {ToDoModel} from '../todo.model';
 })
 export class TodoListComponent implements OnInit {
 
-  private todoService = inject(TodoService);
-  private destroyRef = inject(DestroyRef);
-
   isFetching = false;
+  taskArray: ToDoModel[] = [];
 
   // @Input({required: true}) tasks: ToDoModel[] = [];
   // @Output() taskArray: ToDoModel[] = [];
-
-  taskArray: ToDoModel[] = [];
+  private todoService = inject(TodoService);
+  private destroyRef = inject(DestroyRef);
 
   ngOnInit() {
     this.isFetching = true;
-    this.todoService.fetchTasks()
+    this.todoService.getAllTasks()
       .subscribe(tasks => {
-        this.taskArray = tasks;
+        this.taskArray = tasks.filter(task => !task.isCompleted);
         this.isFetching = false;
         console.log('Pobrane zadania:', this.taskArray);
       });
-
   }
-  
+
+
 }

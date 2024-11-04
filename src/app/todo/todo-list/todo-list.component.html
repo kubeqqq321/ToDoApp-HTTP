@@ -14,7 +14,7 @@
 
   <ng-template #moreThanZeroTemplate>
     <mat-list-item *ngFor="let task of taskArray">
-      <app-todo-list-item [task]="task"/>
+      <app-todo-list-item *ngIf="!task.isCompleted" [task]="task"/>
     </mat-list-item>
   </ng-template>
 

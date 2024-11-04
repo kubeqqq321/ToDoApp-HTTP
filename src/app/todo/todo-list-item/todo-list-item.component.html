@@ -1,8 +1,21 @@
-<mat-checkbox (click)="onChangeState(task)"
-              [checked]="task.isCompleted"
-              matTooltip="Want to complete"
-              matTooltipPosition="right">
-  {{ task.title }} + {{ task.isCompleted }} + {{ task.id }}
-</mat-checkbox>
+<mat-toolbar>
+  <mat-toolbar-row>
+    <mat-checkbox (click)="onChangeState(task)"
+                  [checked]="task.isCompleted"
+                  matTooltip="Want to complete"
+                  matTooltipPosition="right">
+      {{ task.title }} + {{ task.isCompleted }} + {{ task.id }}
+    </mat-checkbox>
+    <span class="example-spacer"></span>
+    <button mat-icon-button class="example-icon" aria-hidden="false" aria-label="Example delete icon"
+            (click)="onDeleteTask(task)">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+
+
+
 
 
