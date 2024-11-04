@@ -14,14 +14,7 @@
 
   <ng-template #moreThanZeroTemplate>
     <mat-list-item *ngFor="let task of taskArray">
-      <mat-checkbox (click)="onChangeState(task)"
-                    [checked]="task.isCompleted"
-                    matTooltip="Want to complete"
-                    matTooltipPosition="right">
-        {{ task.title }} + {{ task.isCompleted }} + {{ task.id }}
-      </mat-checkbox>
-
-      <!--      <app-todo-list-item [task]="task"/>-->
+      <app-todo-list-item [task]="task"/>
     </mat-list-item>
   </ng-template>
 

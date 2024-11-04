@@ -36,7 +36,11 @@ export class TodoListItemComponent {
   private todoService = inject(TodoService);
 
 
-  onChangeState(task: ToDoModel) {
+  // onChangeState(task: ToDoModel) {
+  //
+  // }
 
+  onChangeState(task: ToDoModel) {
+    this.todoService.changeTaskState(task);
   }
 }

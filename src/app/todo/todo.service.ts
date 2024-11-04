@@ -10,6 +10,8 @@ import {HttpClient} from "@angular/common/http";
 })
 export class TodoService {
 
+  localUrl = 'http://localhost:3000/';
+
   loadedTasks: ToDoModel[] = [];
 
   private httpClient = inject(HttpClient);
@@ -18,7 +20,7 @@ export class TodoService {
     console.log(toDoModel);
     return this.httpClient.post<{
       todo: ToDoModel
-    }>('http://localhost:3000/tasksAdd', toDoModel).subscribe(responseData => {
+    }>(this.localUrl + "tasksAdd", toDoModel).subscribe(responseData => {
       console.log(responseData);
     });
   }
@@ -31,7 +33,7 @@ export class TodoService {
     // }
 
     console.log('Selected task: ' + toDoModel.title);
-    return this.httpClient.post('http://localhost:3000/tasksAdd', {
+    return this.httpClient.post(this.localUrl + "tasksAdd", {
       taskId: toDoModel.id,
     })
       .pipe(
@@ -45,24 +47,21 @@ export class TodoService {
 
   fetchTasks() {
     return this.httpClient
-      .get<{ [key: string]: ToDoModel }>('http://localhost:3000/tasksAdd')
-      .pipe(
-        map(responseData => {
-          const postArray: ToDoModel[] = [];
-          for (const key in responseData) {
-            if (responseData.hasOwnProperty(key)) {
-              postArray.push({...responseData[key], id: key});
-            }
-          }
-          console.log(postArray);
-          return postArray;
-        }))
+      .get<ToDoModel[]>(this.localUrl + "tasksAdd")
   }
 
 
+  // changeTaskState(task: ToDoModel) {
+  //   return this.httpClient.post(`this.localUrl + "tasksAdd/${task.id}`, {
+  //     isCompleted: task.isCompleted,
+  //   });
+  // }
+
   changeTaskState(task: ToDoModel) {
-    return this.httpClient.put(`http://localhost:3000/tasksAdd/${task.id}`, {
+    return this.httpClient.post(this.localUrl + `tasksAdd/${task.id}`, {
       isCompleted: task.isCompleted,
+    }).subscribe(responseData => {
+      console.log(responseData);
     });
   }
 }

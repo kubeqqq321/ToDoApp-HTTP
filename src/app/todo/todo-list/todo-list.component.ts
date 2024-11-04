@@ -51,10 +51,10 @@ export class TodoListComponent implements OnInit {
 
   isFetching = false;
 
-  @Input({required: true}) tasks: ToDoModel[] = [];
-  @Output() taskArray: ToDoModel[] = [];
+  // @Input({required: true}) tasks: ToDoModel[] = [];
+  // @Output() taskArray: ToDoModel[] = [];
 
-  // taskArray: ToDoModel[] = [];
+  taskArray: ToDoModel[] = [];
 
   ngOnInit() {
     this.isFetching = true;
@@ -66,16 +66,5 @@ export class TodoListComponent implements OnInit {
       });
 
   }
-
-
-  onChangeState(task: ToDoModel) {
-    this.todoService.changeTaskState(task).subscribe({
-      next: (res) => {
-        console.log('Zmieniono status zadania:', res);
-      },
-      error: (error) => {
-        console.log('Błąd zmiany statusu zadania:', error);
-      }
-    })
-  }
+  
 }
