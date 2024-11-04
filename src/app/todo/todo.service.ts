@@ -58,9 +58,7 @@ export class TodoService {
   // }
 
   changeTaskState(task: ToDoModel) {
-    return this.httpClient.post(this.localUrl + `tasksAdd/${task.id}`, {
-      isCompleted: task.isCompleted,
-    }).subscribe(responseData => {
+    return this.httpClient.delete(this.localUrl + `tasksAdd/${task.id}`).subscribe(responseData => {
       console.log(responseData);
     });
   }
